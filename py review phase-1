@@ -1,0 +1,106 @@
+class LandRecordManagementSystem:
+    def __init__(self):
+        self.records = {}
+
+    def add_record(self, plot_number, owner_name, area, value, place):
+        if plot_number in self.records:
+            print(f"Plot number {plot_number} already exists.")
+            return False
+        self.records[plot_number] = {
+            'owner_name': owner_name,
+            'area': area,
+            'value': value,
+            'place': place
+        }
+print(f"Record for plot number {plot_number} added successfully.")
+        return True
+        
+    def update_record(self, plot_number, owner_name=None, area=None, value=None, place=None):
+        if plot_number not in self.records:
+            print(f"Plot number {plot_number} does not exist.")
+            return False
+        if owner_name:
+            self.records[plot_number]['owner_name'] = owner_name
+        if area:
+            self.records[plot_number]['area'] = area
+        if value:
+            self.records[plot_number]['value'] = value
+        if place:
+            self.records[plot_number]['place'] = place
+        print(f"Record for plot number {plot_number} updated successfully.")
+        return True
+
+    def delete_record(self, plot_number):
+        if plot_number in self.records:
+            del self.records[plot_number]
+            print(f"Record for plot number {plot_number} deleted successfully.")
+            return True
+        print(f"Plot number {plot_number} does not exist.")
+        return False
+
+    def get_record(self, plot_number):
+        return self.records.get(plot_number, f"Plot number {plot_number} does not exist.")
+
+    def display_all_records(self):
+        if not self.records:
+            print("No records to display.")
+            return
+        for plot_number, details in self.records.items():
+            print(f"Plot Number: {plot_number}, Owner: {details['owner_name']}, Area: {details['area']}, Value: {details['value']}, Place: {details['place']}")
+
+def main():
+    system = LandRecordManagementSystem()
+        
+    while True:
+        print("\nLand Record Management System")
+        print("1. Add Record")
+        print("2. Update Owner Name")
+        print("3. Delete Record")
+        print("4. View Record")
+        print("5. Display All Records")
+        print("6. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            plot_number = input("Enter plot number: ")
+            owner_name = input("Enter owner name: ")
+            area = float(input("Enter area (in square meters): "))
+            value = float(input("Enter value: "))
+            place = input("Enter place: ")
+            system.add_record(plot_number, owner_name, area, value, place)
+                
+        elif choice == '2':
+            plot_number = input("Enter plot number: ")
+            owner_name = input("Enter new owner name: ")
+            if system.update_record(plot_number, owner_name=owner_name):
+                record = system.get_record(plot_number)
+                if isinstance(record, dict):
+                    print(f"Updated Record for Plot Number {plot_number}:")
+                    print(f"Owner: {record['owner_name']}, Area: {record['area']}, Value: {record['value']}, Place: {record['place']}")
+                else:
+                    print(record)
+
+        elif choice == '3':
+            plot_number = input("Enter plot number: ")
+            system.delete_record(plot_number)
+            
+        elif choice == '4':
+            plot_number = input("Enter plot number: ")
+            record = system.get_record(plot_number)
+            if isinstance(record, dict):
+                print(f"Plot Number: {plot_number}, Owner: {record['owner_name']}, Area: {record['area']}, Value: {record['value']}, Place: {record['place']}")
+            else:
+                print(record)
+
+        elif choice == '5':
+            system.display_all_records()
+
+        elif choice == '6':
+            print("Exiting...")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
